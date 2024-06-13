@@ -3,11 +3,13 @@ const jwt = require('jsonwebtoken');
 const senhaJwt = require('../senha_jwt')
 
 const listarCarros = async (req, res) => {
-	const { token } = req.body;
+	const { authorization } = req.headers;
 
-	if(!token) {
+	if(!authorization) {
 		return res.status(401).json({mensagem: 'Não autorizado'});
 ;	}
+
+	const token = authorization.split(' ')[1];
 
 	try {
 		const tokenUsuario = jwt.verify(token, senhaJwt);

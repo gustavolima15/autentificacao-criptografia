@@ -1,4 +1,5 @@
 const express = require('express')
+const verificarUsuarioLogado = require('./intermediarios/autentificacao')
 const {
 	listarCarros,
 	detalharCarro,
@@ -12,7 +13,10 @@ const rotas = express()
 
 rotas.post('/usuario', cadastrarUsuario);
 rotas.post('/login', login);
-rotas.get('/usuario', listarUsuarios);
+
+rotas.use(verificarUsuarioLogado);
+
+rotas.get('/perfil', listarUsuarios);
 
 rotas.get('/carro', listarCarros)
 rotas.get('/carro/:id', detalharCarro)

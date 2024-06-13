@@ -22,13 +22,7 @@ const cadastrarUsuario = async(req, res) => {
 }
 
 const listarUsuarios = async (req, res) => {
-	try {
-		const { rows } = await pool.query('select * from usuarios')
-
-		return res.json(rows)
-	} catch (error) {
-		return res.status(500).json('Erro interno do servidor')
-	}
+	return res.json(req.usuario)
 }
 
 const login = async (req, res) => {

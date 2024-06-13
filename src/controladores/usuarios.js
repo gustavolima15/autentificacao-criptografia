@@ -20,6 +20,28 @@ const cadastrarUsuario = async(req, res) => {
 
 }
 
+const login = async (req, res) => {
+    const {email, senha} = req.bod
+    try {
+        const usuario = await pool.query('select * from usuarios where email = $1', [email])
+        
+        if(usuario.rowCount < 1){
+            return res.status(404).json({mensagem: 'Usuário não encontrado'})
+        }
+        
+        const senhaValida = await bcrypt.compare(senha, usuario.rows[0].senha);
+
+        if (!senhaValida) {
+            return res.status(400).json({mensagem: 'Usuário não encontrado'})
+        }
+    
+    } catch (error) {
+            return res.status(500).json({mensagem: 'Erro interno do servidor'})
+    }
+
+}
+
 module.exports = {
-    cadastrarUsuario
+    cadastrarUsuario,
+    login
 };

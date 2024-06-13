@@ -33,7 +33,10 @@ const listarUsuarios = async (req, res) => {
 
 const login = async (req, res) => {
     const {email, senha} = req.body;
+
+    
     try {
+        
         const usuario = await pool.query('select * from usuarios where email = $1', [email])
         
         if(usuario.rowCount < 1){
